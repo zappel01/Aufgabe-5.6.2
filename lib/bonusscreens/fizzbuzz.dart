@@ -2,13 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:practice2/helpers/custom_stack_textfield.dart';
 
 class FizzBuzz extends StatefulWidget {
-  const FizzBuzz({super.key});
+  const FizzBuzz({Key? key}) : super(key: key);
 
   @override
   State<FizzBuzz> createState() => _FizzBuzzState();
 }
 
 class _FizzBuzzState extends State<FizzBuzz> {
+  int firstNumber = 1;
+  int secondNumber = 15; // Default value, you can change this as needed
+
+  void printFizzBuzz() {
+    for (int i = firstNumber; i <= secondNumber; i++) {
+      if (i % 3 == 0 && i % 5 == 0) {
+        print('FizzBuzz');
+      } else if (i % 3 == 0) {
+        print('Fizz');
+      } else if (i % 5 == 0) {
+        print('Buzz');
+      } else {
+        print(i);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,28 +45,45 @@ class _FizzBuzzState extends State<FizzBuzz> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              width: 100,
+              width: 250,
               child: CustomStackTextField(
-                labelText: 'Erste Zahl',
+                labelText: 'Startzahl',
                 borderRadius: 25,
                 backgroundColor: Colors.white,
+                keyboardType: TextInputType.number,
+                onChange: (value) {
+                  if (value.isNotEmpty) {
+                    firstNumber = int.parse(value);
+                  }
+                },
               ),
             ),
+            SizedBox(height: 20),
             SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              width: 100,
+              width: 250,
               child: CustomStackTextField(
-                labelText: 'Zweite Zahl',
+                labelText: 'Endzahl',
                 borderRadius: 25,
                 backgroundColor: Colors.white,
+                keyboardType: TextInputType.number,
+                onChange: (value) {
+                  if (value.isNotEmpty) {
+                    secondNumber = int.parse(value);
+                  }
+                },
               ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                printFizzBuzz();
+              },
+              child: Text('FizzBuzz ausgeben'),
             ),
           ],
         ),
